@@ -58,3 +58,23 @@ call specific_customer_purchases(2);
 call specific_customer_purchases(1);
 
 call specific_customer_purchases(3);
+
+
+CREATE PROCEDURE w18b.specific_customer_purchases(customer_id_input int unsigned)
+begin
+select c.username, count(c.id)
+from customer c inner join purchase p on p.customer_id = c.id
+inner join item i on i.id=p.item_id 
+where c.id =customer_id_input
+group by c.id;
+END
+
+
+CREATE PROCEDURE w18b.five_most_recent()
+begin
+select c.username, i.name, p.purchase_time 
+from customer c inner join purchase p on p.customer_id = c.id
+inner join item i on i.id=p.item_id 
+order by p.purchase_time  desc
+limit 5;
+END
